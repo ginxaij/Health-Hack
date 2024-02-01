@@ -2,8 +2,9 @@ from flask import Flask, url_for, redirect, request, render_template, jsonify, s
 import sqlite3
 import pytesseract
 from PIL import Image
-from io import BytesIO
+import numpy as np
 import base64
+import cv2
 
 app = Flask(__name__)
 app.secret_key = "23d/fida6*dwk%$dz"
@@ -141,21 +142,17 @@ def valid_login(username, password):
     return (return_value == password)
 
 def gen_ai_report(image):
+    binary_data = base64.b64decode(image)
+    np_array = np.frombuffer(binary_data, np.uint8)
+    cv2_workable_image = cv2.imdecode(np_array, cv2.IMREAD_COLOR)
 
-    byte_data = bytes(image, 'utf-8')
-    binary_data = base64.b64decode(byte_data)
+    gray = cv2.cvtColor(cv2_workable_image, cv2.COLOR_BGR2GRAY)
+    thresh = cv2.threshold(gray, 0, 255,
+    cv2.THRESH_BINARY_INV | cv2.THRESH_OTSU)[1]
 
-    image = Image.open(BytesIO(binary_data))
+    thresh_pil = Image.fromarray(thresh)
 
-    if image.mode != 'RGB':
-        image = image.convert('RGB')
-
-    rgb_data = list(image.getdata())
-
-    width, height = image.size
-    rgb_data = [rgb_data[i * width:(i + 1) * width] for i in range(height)]
-
-    text_from_new_image = pytesseract.image_to_string(rgb_data)
+    text_from_new_image = pytesseract.image_to_string(thresh_pil)
 
     return text_from_new_image
 

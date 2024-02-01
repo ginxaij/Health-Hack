@@ -125,6 +125,7 @@
 
             analysebutton.addEventListener("click", function(ev){
                 if(!streaming){
+                    photo_data = photo_data.replace('data:image/png;base64,', '');
                     $.ajax({
                     type: "POST",
                     url: "/process report",
