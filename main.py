@@ -1,8 +1,9 @@
 from flask import Flask, url_for, redirect, request, render_template, jsonify, session
 import sqlite3
 import pytesseract
-import cv2
-from PIL import Image, ImageEnhance, ImageFilter
+from PIL import Image
+from io import BytesIO
+import base64
 
 app = Flask(__name__)
 app.secret_key = "23d/fida6*dwk%$dz"
@@ -141,11 +142,20 @@ def valid_login(username, password):
 
 def gen_ai_report(image):
 
-    pytesseract.pytesseract.tesseract_cmd = r'/usr/local/python/3.10.13/lib/python3.10/site-packages'
+    byte_data = bytes(image, 'utf-8')
+    binary_data = base64.b64decode(byte_data)
 
-    # Convert the image to text with preprocessing
-    text_from_new_image = pytesseract.image_to_string(new_image_path)
-    print(text_from_new_image)
+    image = Image.open(BytesIO(binary_data))
+
+    if image.mode != 'RGB':
+        image = image.convert('RGB')
+
+    rgb_data = list(image.getdata())
+
+    width, height = image.size
+    rgb_data = [rgb_data[i * width:(i + 1) * width] for i in range(height)]
+
+    text_from_new_image = pytesseract.image_to_string(rgb_data)
 
     return text_from_new_image
 
