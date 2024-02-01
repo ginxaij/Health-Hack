@@ -143,16 +143,13 @@ def valid_login(username, password):
 
 def gen_ai_report(image):
     binary_data = base64.b64decode(image)
+
     np_array = np.frombuffer(binary_data, np.uint8)
     cv2_workable_image = cv2.imdecode(np_array, cv2.IMREAD_COLOR)
+    gray_image = cv2.cvtColor(cv2_workable_image, cv2.COLOR_BGR2GRAY)
 
-    gray = cv2.cvtColor(cv2_workable_image, cv2.COLOR_BGR2GRAY)
-    thresh = cv2.threshold(gray, 0, 255,
-    cv2.THRESH_BINARY_INV | cv2.THRESH_OTSU)[1]
-
-    thresh_pil = Image.fromarray(thresh)
-
-    text_from_new_image = pytesseract.image_to_string(thresh_pil)
+    text_from_new_image = pytesseract.image_to_string(gray_image)
+    print(text_from_new_image)
 
     return text_from_new_image
 

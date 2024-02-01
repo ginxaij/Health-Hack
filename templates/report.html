@@ -50,7 +50,7 @@
                 <video id="video" class = "video_canvas" autoplay></video>
                 <photo id = "photo" class = "photo_canvas" alt = "photobox"></photo>
             </div>
-            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 10px;">
+            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 10px;" id = "button-grids">
                 <button id="capture" class = "round_button record" style = "grid-area:1/1/2/2"></button>
                 <text style = "grid-area:2/1/-1/2">Press the Red Button to Capture the Image</text>
                 <button id="retake" class = "round_button retake" style = "grid-area:1/2/2/3"></button>
@@ -68,7 +68,8 @@
             var video = document.getElementById('video');
             var streaming = false;
             var photo_data = null;
-            var video_backing = document.getElementById('video-backing')
+            var video_backing = document.getElementById('video-backing');
+            var button_grids = document.getElementById('button-grids');
 
             function setCanvasSize() {
                 video_backing.style.width = `${video.videoWidth}px`;
@@ -94,7 +95,7 @@
             }
             
             function start_livestream(){
-                navigator.mediaDevices.getUserMedia({ video: {facingMode: environment} }).then(function(stream) {
+                navigator.mediaDevices.getUserMedia({ video: {facingMode: 'environment'} }).then(function(stream) {
                     video.srcObject = stream;
                     video.addEventListener('loadedmetadata', function () {
                         video.play();
@@ -102,9 +103,9 @@
                         streaming = true;
                     });
                 }).catch(function(err){
-                    video_backing.style.width = `0px`
-                    video_backing.style.height = `0px`
-                    console.error(`An error occurred with getting environment camera: ${err}`);
+                    console.error(`An error occurred with getting user camera: ${err}`);
+                    videoBacking.style.display = 'none';
+                    button_grids.style.display = 'none';
                 });
             }
 
