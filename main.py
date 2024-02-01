@@ -1,18 +1,8 @@
 from flask import Flask, url_for, redirect, request, render_template, jsonify, session
 import sqlite3
-
-
-#jiaxing and jinxue
-#ai chatbot implementation
-
-#Xue Ping today
-#finish diagnosis implementation
-
-#minor things
-#how to link jiaxing and jinxue models into our app and test (sync everything)
-#figure out how to deploy flask on github
-#understand favicons and the need to add them
-#protect against injection attacks
+import pytesseract
+import cv2
+from PIL import Image, ImageEnhance, ImageFilter
 
 app = Flask(__name__)
 app.secret_key = "23d/fida6*dwk%$dz"
@@ -150,26 +140,11 @@ def valid_login(username, password):
     return (return_value == password)
 
 def gen_ai_report(image):
-    import numpy as np
-    import pytesseract
-    import argparse
-    import imutils
-    import cv2
 
-    pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
-
-    #make bytes to bytes 
-
-    
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-    # threshold the image using Otsu's thresholding method
     thresh = cv2.threshold(gray, 0, 255,
     cv2.THRESH_BINARY_INV | cv2.THRESH_OTSU)[1]
 
-    import pytesseract
-    from PIL import Image, ImageEnhance, ImageFilter
-
-    # Set the path to the Tesseract executable
     pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
 
     def image_to_text(image_path):
