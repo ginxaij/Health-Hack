@@ -141,29 +141,11 @@ def valid_login(username, password):
 
 def gen_ai_report(image):
 
-    gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-    thresh = cv2.threshold(gray, 0, 255,
-    cv2.THRESH_BINARY_INV | cv2.THRESH_OTSU)[1]
+    pytesseract.pytesseract.tesseract_cmd = r'/usr/local/python/3.10.13/lib/python3.10/site-packages'
 
-    pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
-
-    def image_to_text(image_path):
-        image = Image.open(image_path)
-        image = image.convert('L')
-        enhancer = ImageEnhance.Contrast(image)
-        image = enhancer.enhance(2)
-        enhancer = ImageEnhance.Sharpness(image)
-        image = enhancer.enhance(2)
-        image = image.filter(ImageFilter.MedianFilter())
-
-        custom_config = r'-l eng --oem 3 --psm 6'
-        text = pytesseract.image_to_string(image, config=custom_config)
-        
-        return text
-
-    new_image_path = thresh
-
+    # Convert the image to text with preprocessing
     text_from_new_image = pytesseract.image_to_string(new_image_path)
+    print(text_from_new_image)
 
     return text_from_new_image
 
