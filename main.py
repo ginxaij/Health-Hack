@@ -149,7 +149,6 @@ def gen_ai_report(image):
     gray_image = cv2.cvtColor(cv2_workable_image, cv2.COLOR_BGR2GRAY)
 
     text_from_new_image = pytesseract.image_to_string(gray_image)
-    print(text_from_new_image)
 
     return text_from_new_image
 
