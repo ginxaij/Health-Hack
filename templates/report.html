@@ -94,7 +94,7 @@
             }
             
             function start_livestream(){
-                navigator.mediaDevices.getUserMedia({ video: true }).then(function(stream) {
+                navigator.mediaDevices.getUserMedia({ video: {facingMode: environment} }).then(function(stream) {
                     video.srcObject = stream;
                     video.addEventListener('loadedmetadata', function () {
                         video.play();
@@ -102,7 +102,9 @@
                         streaming = true;
                     });
                 }).catch(function(err){
-                    console.error(`An error occurred: ${err}`);
+                    video_backing.style.width = `0px`
+                    video_backing.style.height = `0px`
+                    console.error(`An error occurred with getting environment camera: ${err}`);
                 });
             }
 
