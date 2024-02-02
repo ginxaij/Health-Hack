@@ -58,6 +58,7 @@
                 <button id="analyse" class = "round_button analyse" style = "grid-area:1/3/2/-1"></button>
                 <text style = "grid-area:2/3/-1/-1">Press the Green Button to Analyse the Image</text>
             </div>
+            <p id = "output"></p>
         </div>
         <script>
             var startbutton = document.getElementById('capture');
@@ -136,7 +137,7 @@
                     contentType: "application/json",
                     dataType: 'json',
                     success: function(results){
-                        window.location.replace("{{url_for('analysed_report')}}");
+                        document.getElementById('output').innerHTML = results['result'];
                     }
                     });
                 }

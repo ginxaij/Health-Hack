@@ -53,16 +53,8 @@ def process_report():
     if 'username' in session:
         if request.method == "POST":
             image_data = request.get_json()
-            session['image_data'] = image_data
             output_data = gen_ai_report(image_data)
-            session['output_data'] = output_data
-            return jsonify({'result': 'success'})
-
-@app.route("/analysed report")
-def analysed_report():
-    if 'username' in session:
-        return render_template("analysed_report.html", image_data = session['image_data'], output_data = session['output_data'])
-    return redirect(url_for("login"))
+            return jsonify({"result": output_data})
 
 
 @app.route("/diagnosis")
