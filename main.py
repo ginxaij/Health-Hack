@@ -1,7 +1,6 @@
 from flask import Flask, url_for, redirect, request, render_template, jsonify, session
 import sqlite3
 import pytesseract
-from PIL import Image
 import numpy as np
 import base64
 import cv2
@@ -51,10 +50,20 @@ def report():
 
 @app.route("/process report", methods = ["POST"])
 def process_report():
-    if request.method == "POST":
-        image_data = request.get_json()
-        x = gen_ai_report(image_data)
-        return jsonify({'data': x})
+    if 'username' in session:
+        if request.method == "POST":
+            image_data = request.get_json()
+            session['image_data'] = image_data
+            output_data = gen_ai_report(image_data)
+            session['output_data'] = output_data
+            return jsonify({'result': 'success'})
+
+@app.route("/analysed report")
+def analysed_report():
+    if 'username' in session:
+        return render_template(analysed_report.html, image_data = session['image_data'], output_data = session['output_data'])
+    return redirect(url_for("login"))
+
 
 @app.route("/diagnosis")
 def diagnosis():
