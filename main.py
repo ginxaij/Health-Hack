@@ -61,7 +61,7 @@ def process_report():
 @app.route("/analysed report")
 def analysed_report():
     if 'username' in session:
-        return render_template(analysed_report.html, image_data = session['image_data'], output_data = session['output_data'])
+        return render_template("analysed_report.html", image_data = session['image_data'], output_data = session['output_data'])
     return redirect(url_for("login"))
 
 

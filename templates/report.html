@@ -136,9 +136,7 @@
                     contentType: "application/json",
                     dataType: 'json',
                     success: function(results){
-                        if(results[result] === 'success') {
-                            window.location.href = "{{url_for('analysed_report')}}";
-                        }
+                        window.location.replace("{{url_for('analysed_report')}}");
                     }
                     });
                 }
