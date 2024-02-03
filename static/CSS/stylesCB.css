@@ -14,6 +14,7 @@ body {
   display: flex;
   flex-direction: column;
   height: 100vh;
+  max-height: 100vh;
 }
 
 #chatbot {
@@ -23,6 +24,7 @@ body {
   flex: 1;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
 }
 
 #header {
@@ -31,6 +33,7 @@ body {
   padding: 20px;
   font-size: 1em;
   font-weight: bold;
+  height: 100px;
 }
 
 message-container {
@@ -43,10 +46,9 @@ message-container {
 }
 
 #conversation {
-  min-height: 80vh;
-  max-height: 80vh;
   overflow-y: auto;
   padding: 20px;
+  max-height: calc(100vh - 240px);
   display: flex;
   flex-direction: column;
 }

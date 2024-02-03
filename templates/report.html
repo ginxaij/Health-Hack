@@ -107,7 +107,7 @@
                         streaming = true;
                     });
                 }).catch(function(err){
-                    console.error(`An error occurred with getting user camera: ${err}`);
+                    alert(`An error occurred with getting user camera: ${err}`);
                     videoBacking.style.display = 'none';
                     button_grids.style.display = 'none';
                 });

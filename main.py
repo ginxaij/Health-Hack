@@ -56,6 +56,7 @@ def process_report():
             output_data = gen_ai_report(image_data)
             if output_data.strip() == '':
                 return jsonify({"result": 'Image is unclear or does not contain text, try again!'})
+            output_data = gen_ai_chatbot(output_data)
             return jsonify({"result": output_data})
 
 

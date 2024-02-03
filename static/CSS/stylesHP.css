@@ -136,5 +136,13 @@ body {
     .settings {
         margin-top: 10px;
     }
+
+    .header {
+        flex-direction: column;
+    }
+    
+    .settings {
+        align-self: flex-end;
+    }
 }
 
