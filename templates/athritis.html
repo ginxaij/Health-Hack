@@ -10,7 +10,7 @@
             line-height: 1.6;
             margin: 20px;
             background: transparent; 
-            color: #333;
+            color: #333; 
         }
 
         header {
@@ -18,17 +18,38 @@
             background-color: #4CAF50; 
             color: white;
             padding: 10px;
+            position: relative; 
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        h1 {
+            font-size: 1.5em; 
+            margin: 0; 
+        }
+
+        #backToSearchBtn {
+            padding: 8px 12px;
+            background-color: #008CBA; 
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
         }
 
         section {
             margin-top: 20px;
             background: rgba(255, 255, 255, 0.8); 
             padding: 10px;
-            border-radius: 8px; 
+            border-radius: 8px;
         }
 
         h2 {
-            color: #4CAF50;
+            color: #4CAF50; 
         }
 
         ul {
@@ -39,8 +60,20 @@
         li {
             margin-bottom: 10px;
         }
-        body{
+
+        body {
             background-image: url(../static/Images/FinalBG.png);
+        }
+
+        
+        @media screen and (max-width: 600px) {
+            h1 {
+                font-size: 1.2em; 
+            }
+
+            #backToSearchBtn {
+                margin-top: 10px; 
+            }
         }
 
     </style>
@@ -48,7 +81,10 @@
 <body>
 
     <header>
-        <h1>Arthritis Information</h1>
+        <div class="header-content">
+            <h1>Arthritis Information</h1>
+            <button id="backToSearchBtn" onclick="backToSearch()">Back To Search</button>
+        </div>
     </header>
 
     <section>
@@ -85,6 +121,11 @@
             <li>Surgery in severe cases</li>
         </ul>
     </section>
+    <script>
+        function backToSearch() {
+            window.location.href = "{{url_for('diagnosis')}}";
+        }
+    </script>
 
 </body>
 </html>
