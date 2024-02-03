@@ -157,5 +157,24 @@ def gen_ai_report(image):
     return text_from_new_image
 
 
-def gen_ai_chatbot(text):
-    return 'placeholder'
+from transformers import AutoTokenizer
+from transformers import AutoModelForCausalLM, BitsAndBytesConfig
+from peft import PeftModel, PeftConfig
+import torch
+from huggingface_hub import login, logout
+import config
+
+# Login with your Hugging Face access token
+login(config.access_token)
+
+tokenizer = AutoTokenizer.from_pretrained("healthhack-trained-model")
+model = AutoModelForCausalLM.from_pretrained("healthhack-trained-model",
+                                              return_dict=True,
+                                              # Add any other necessary configuration here
+                                             )
+
+def gen_ai_chatbot(input_text):
+    inputs = tokenizer.encode(input_text, return_tensors='pt')
+    outputs = model.generate(inputs, max_length=50, num_return_sequences=1)
+    response_text = tokenizer.decode(outputs[0], skip_special_tokens=True)
+    return response_text
