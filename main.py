@@ -54,6 +54,8 @@ def process_report():
         if request.method == "POST":
             image_data = request.get_json()
             output_data = gen_ai_report(image_data)
+            if output_data.strip() == '':
+                return jsonify({"result": 'Image is unclear or does not contain text, try again!'})
             return jsonify({"result": output_data})
 
 
